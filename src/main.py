@@ -205,6 +205,7 @@ if __name__ == '__main__':
 					if does_word_fit(word, (0, 1, 2, 1, 0), 'blask'):
 						print(word, end=' ')
 						pass
+	print()
 	
 	# n = 2_000
 	# start = time.perf_counter()
@@ -215,4 +216,9 @@ if __name__ == '__main__':
 	# 	does_word_fit('crepe', [0, 1, 2, 1, 0], 'speed')
 	# end = time.perf_counter()
 	# print(f"{n} Patterns checked in {(end - start) * 1000:0.0f} ms")
+	
+	start = time.perf_counter()
+	create_pattern_chart('debil', words)
+	end = time.perf_counter()
+	print(f"Entropy calculated in {(end - start) * 1000:0.0f} ms")
 	pass
