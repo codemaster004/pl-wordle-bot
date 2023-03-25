@@ -144,18 +144,19 @@ def create_pattern_chart(check_word, words):
 	:rtype: dict[str, str | dict | int]
 	"""
 	
-	possible_patterns = list(itertools.product(range(3), repeat=5))
+	possible_patterns = list(itertools.product(range(3), repeat=len(check_word)))
 	pattern_chart = {'key': check_word, 'patterns': {}, 'entropy': 0}  # Prepare data structure
 	
 	for pattern in possible_patterns:
-		n = 1  # Need to start with one because of `division by 0 error` in calculating information
+		n = 0
 		for word in words:
 			# Check if word from word list matches pattern build on the check_word
 			if does_word_fit(word, pattern, check_word):
 				n += 1
 		
-		probability = n / (len(words) + 1)
-		pattern_chart['patterns'][str(pattern)] = probability
+		probability = n / len(words)
+		if probability != 0:
+			pattern_chart['patterns'][str(pattern)] = probability
 	
 	# print(pattern_chart)
 	
@@ -180,32 +181,32 @@ if __name__ == '__main__':
 	# print(v)
 	# print(does_word_fit('mścić', v))
 	
-	with open("data/words.json") as file:
-		data = json.load(file)
-		words = data['slowa'][:]
-	# 	
+	# with open("data/words.json") as file:
+	# 	data = json.load(file)
+	# 	words = data['slowa'][:]
+	#
 	# 	n = 1
 	# 	for word in words:
 	# 		if does_word_fit(word, (0, 1, 0, 0, 2), 'fizyk'):
 	# 			n += 1
-	# 	
+	#
 	# 	print(n)
 	# 	probability = n / (len(words) + 1)
 	# 	print(probability)
 	# 	print(math.log2(1 / probability))
 	# 	print(f"Entropy checked in {(end - start) * 1000:0.0f} ms")
 	
-	for word in words:
-		if does_word_fit(word, (0, 0, 2, 0, 0), 'arara'):
-			# print(word, end=' ')
-			if does_word_fit(word, (1, 0, 2, 0, 0), 'szaty'):
-				# print(word, end=' ')
-				if does_word_fit(word, (0, 0, 2, 0, 1), 'chaos'):
-					# print(word, end=' ')
-					if does_word_fit(word, (0, 1, 2, 1, 0), 'blask'):
-						print(word, end=' ')
-						pass
-	print()
+	# for word in words:
+	# 	if does_word_fit(word, (0, 0, 2, 0, 0), 'arara'):
+	# 		# print(word, end=' ')
+	# 		if does_word_fit(word, (1, 0, 2, 0, 0), 'szaty'):
+	# 			# print(word, end=' ')
+	# 			if does_word_fit(word, (0, 0, 2, 0, 1), 'chaos'):
+	# 				# print(word, end=' ')
+	# 				if does_word_fit(word, (0, 1, 2, 1, 0), 'blask'):
+	# 					print(word, end=' ')
+	# 					pass
+	# print()
 	
 	# n = 2_000
 	# start = time.perf_counter()
@@ -217,8 +218,8 @@ if __name__ == '__main__':
 	# end = time.perf_counter()
 	# print(f"{n} Patterns checked in {(end - start) * 1000:0.0f} ms")
 	
-	start = time.perf_counter()
-	create_pattern_chart('debil', words)
-	end = time.perf_counter()
-	print(f"Entropy calculated in {(end - start) * 1000:0.0f} ms")
+	# start = time.perf_counter()
+	# create_pattern_chart('debil', words)
+	# end = time.perf_counter()
+	# print(f"Entropy calculated in {(end - start) * 1000:0.0f} ms")
 	pass

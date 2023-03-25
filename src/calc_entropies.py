@@ -6,9 +6,9 @@ from datetime import datetime
 
 from main import create_pattern_chart
 
-redis_sorted = redis.Redis(host='localhost', port=6379, db=0)
-redis_entropies = redis.Redis(host='localhost', port=6379, db=1)
-redis_distribution = redis.Redis(host='localhost', port=6379, db=2)
+redis_sorted = redis.Redis(host='localhost', port=6379, db=3)
+redis_entropies = redis.Redis(host='localhost', port=6379, db=4)
+redis_distribution = redis.Redis(host='localhost', port=6379, db=5)
 
 
 def calc_entropy_for_words(word_list, all_words, n=0):
@@ -25,7 +25,7 @@ def calc_entropy_for_words(word_list, all_words, n=0):
 
 def calc_rest_of_entropies():
 	# Read word from file
-	with open("data/words.json") as file:
+	with open("data/simple_word.json") as file:
 		data = json.load(file)
 		words = data['slowa'][:]
 	
@@ -44,19 +44,19 @@ def calc_rest_of_entropies():
 	n = 5
 	# Divide all missing words into N equal groups
 	words_chunks = np.array_split(missing_words, n)
-	
-	threads = []
-	for i in range(n):
-		t = threading.Thread(target=calc_entropy_for_words, args=(words_chunks[i], words, i))
-		threads.append(t)
-		t.start()
 
-	# Wait for all threads to finish
-	for t in threads:
-		t.join()
+	# threads = []
+	# for i in range(n):
+	# 	t = threading.Thread(target=calc_entropy_for_words, args=(words_chunks[i], words, i))
+	# 	threads.append(t)
+	# 	t.start()
+	# 
+	# # Wait for all threads to finish
+	# for t in threads:
+	# 	t.join()
 	
-	# i = 4
-	# calc_entropy_for_words(words_chunks[i], words)
+	i = 4
+	calc_entropy_for_words(words_chunks[i], words)
 
 
 if __name__ == '__main__':
