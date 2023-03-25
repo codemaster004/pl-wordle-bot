@@ -16,10 +16,10 @@ def compare_word_with_key(key, word):
 	:type word: str
 	
 	:return: Returns patter for coverage of given word on key
-	:rtype: list[int]
+	:rtype: tuple[int]
 	"""
 	temp_key = list(key)
-
+	
 	pattern = [0] * 5
 	
 	orange_char = []
@@ -42,7 +42,68 @@ def compare_word_with_key(key, word):
 			pattern[i] = 1
 			temp_key[temp_key.index(char)] = None  # for safety lets remove it if triple letters happen
 	
-	return pattern
+	return tuple(pattern)
+
+
+def does_word_fit(check_word, pattern_list, pattern_word):
+	"""
+	Given a check_word determines if it matches given pattern_list in combination with pattern_word
+	
+	:param check_word: Currently, checking word if matches the pattern
+	:type check_word: str
+	
+	:param pattern_list: Color pattern showing if a letter exists somewhere ant exactly this position or doesn't exist
+	:type pattern_list: tuple[int]
+	
+	:param pattern_word: Connected with a pattern is a word it was generated on
+	:type pattern_word: str
+	
+	:return: If the check_word matches the given pattern
+	:rtype: bool
+	"""
+	
+	gray = []
+	orange = []
+	green = []
+	# Break up pattern letters into appropriate colors
+	for index, pattern in enumerate(pattern_list):
+		match pattern:
+			case 2:
+				# Green require letter and position it is on
+				green.append((index, pattern_word[index]))
+			case 1:
+				# Orange require letter and position it is Not on
+				orange.append((index, pattern_word[index]))
+			case _:
+				# Otherwise it is gray so only letter matters
+				gray.append(pattern_word[index])
+	
+	temp = list(check_word)
+	# WARNING: Order in witch you check letter color matters
+	# First check if Green letter exists on exact position
+	for i, char in green:
+		if temp[i] != char:
+			return False
+		else:
+			temp[i] = None  # remove it because of need to check double letters
+	
+	# Second check Orange if letter exists and Not on given position
+	for i, char in orange:
+		if char not in temp:
+			return False
+		
+		index = temp.index(char)
+		if i == index:
+			return False
+		else:
+			temp[index] = None  # remove it because of need to check double letters
+	
+	# Last check if gray letters don't exist in word
+	for char in gray:
+		if char in temp:
+			return False
+	
+	return True
 
 
 if __name__ == '__main__':
