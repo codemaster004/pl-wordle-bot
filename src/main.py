@@ -21,7 +21,7 @@ def compare_word_with_key(key, word):
 	
 	temp_key = list(key)
 	
-	pattern = [0] * 5
+	pattern = [0] * len(key)
 	
 	orange_char = []
 	for i, char in enumerate(word):
