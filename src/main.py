@@ -18,6 +18,7 @@ def compare_word_with_key(key, word):
 	:return: Returns patter for coverage of given word on key
 	:rtype: tuple[int]
 	"""
+	
 	temp_key = list(key)
 	
 	pattern = [0] * 5
@@ -106,6 +107,65 @@ def does_word_fit(check_word, pattern_list, pattern_word):
 	return True
 
 
+def create_pattern_chart(check_word, words):
+	"""
+	For a given currently check word calculates its entropy.
+	
+	Sum of probabilities for this word with its patterns and
+	information this would give us.
+	
+	Generally average information we are going to get if we play this word.
+	
+	Math:
+		*Sum( p(x) * log2( 1/p(x) ) )*
+		
+		x = MatchesPerPattern / TotalWordCount
+	
+	Example:
+		``pattern: (0, 1, 0, 0, 2)``
+		
+		``word: "fizyk"``
+		
+			Has 100 mathing words in word list. *(apsik, bucik, drink, iglak...)*
+			
+			Probability of it accusing is 0.0036.
+			
+			And it gives us information of approximately 8 Bits.
+			
+			*Bit is a measure of how many times we cut dataset in half*
+	
+	:param check_word: word for which we will generate patterns and calculate the entropy
+	:type check_word: str
+	
+	:param words: list of words we will base our calculation on
+	:type words: list[str]
+	"""
+	
+	possible_patterns = list(itertools.product(range(3), repeat=5))
+	pattern_chart = {'key': check_word, 'patterns': {}}  # Prepare data structure
+	
+	for pattern in possible_patterns:
+		n = 1  # Need to start with one because of `division by 0 error` in calculating information
+		for word in words:
+			# Check if word from word list matches pattern build on the check_word
+			if does_word_fit(word, pattern, check_word):
+				n += 1
+		
+		probability = n / (len(words) + 1)
+		pattern_chart['patterns'][pattern] = probability
+	
+	print(pattern_chart)
+	
+	entropy = 0
+	
+	# Calculater: Entropy(Information) = Sum( probability(x) * Information(x) )
+	for probability in pattern_chart['patterns'].values():
+		information = math.log2(1 / probability)
+		entropy += probability * information
+	
+	print(entropy)
+
+
 if __name__ == '__main__':
 	# key = 'mścić'
 	# word = 'cucić'
@@ -114,13 +174,19 @@ if __name__ == '__main__':
 	# print(v)
 	# print(does_word_fit('mścić', v))
 	
-	# with open("data.json") as file:
+	# with open("data/words.json") as file:
 	# 	data = json.load(file)
 	# 	words = data['slowa'][:]
-	# 
-	# 	start = time.perf_counter()
-	# 	create_patttern_chart('debil', words)
-	# 	end = time.perf_counter()
+	# 	
+	# 	n = 1
+	# 	for word in words:
+	# 		if does_word_fit(word, (0, 1, 0, 0, 2), 'fizyk'):
+	# 			n += 1
+	# 	
+	# 	print(n)
+	# 	probability = n / (len(words) + 1)
+	# 	print(probability)
+	# 	print(math.log2(1 / probability))
 	# 	print(f"Entropy checked in {(end - start) * 1000:0.0f} ms")
 	
 	# for word in words:
