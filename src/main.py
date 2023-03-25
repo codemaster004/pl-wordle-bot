@@ -139,10 +139,13 @@ def create_pattern_chart(check_word, words):
 	
 	:param words: list of words we will base our calculation on
 	:type words: list[str]
+	
+	:return: dictionary with distribution of probability per pattern 
+	:rtype: dict[str, str | dict | int]
 	"""
 	
 	possible_patterns = list(itertools.product(range(3), repeat=5))
-	pattern_chart = {'key': check_word, 'patterns': {}}  # Prepare data structure
+	pattern_chart = {'key': check_word, 'patterns': {}, 'entropy': 0}  # Prepare data structure
 	
 	for pattern in possible_patterns:
 		n = 1  # Need to start with one because of `division by 0 error` in calculating information
@@ -152,9 +155,9 @@ def create_pattern_chart(check_word, words):
 				n += 1
 		
 		probability = n / (len(words) + 1)
-		pattern_chart['patterns'][pattern] = probability
+		pattern_chart['patterns'][str(pattern)] = probability
 	
-	print(pattern_chart)
+	# print(pattern_chart)
 	
 	entropy = 0
 	
@@ -163,7 +166,10 @@ def create_pattern_chart(check_word, words):
 		information = math.log2(1 / probability)
 		entropy += probability * information
 	
-	print(entropy)
+	pattern_chart['entropy'] = entropy
+	
+	# print(check_word, entropy)
+	return pattern_chart
 
 
 if __name__ == '__main__':
@@ -174,9 +180,9 @@ if __name__ == '__main__':
 	# print(v)
 	# print(does_word_fit('mścić', v))
 	
-	# with open("data/words.json") as file:
-	# 	data = json.load(file)
-	# 	words = data['slowa'][:]
+	with open("data/words.json") as file:
+		data = json.load(file)
+		words = data['slowa'][:]
 	# 	
 	# 	n = 1
 	# 	for word in words:
@@ -189,14 +195,16 @@ if __name__ == '__main__':
 	# 	print(math.log2(1 / probability))
 	# 	print(f"Entropy checked in {(end - start) * 1000:0.0f} ms")
 	
-	# for word in words:
-	# 	z = zip([1, 0, 0, 0, 1], 'dynia')
-	# 	if does_word_fit(word, z):
-	# 		z = zip([0, 2, 2, 0, 0], 'sadło')
-	# 		if does_word_fit(word, z):
-	# 			z = zip([0, 2, 2, 2, 2], 'badać')
-	# 			if does_word_fit(word, z):
-	# 				print(word, end=' ')
+	for word in words:
+		if does_word_fit(word, (0, 0, 2, 0, 0), 'arara'):
+			# print(word, end=' ')
+			if does_word_fit(word, (1, 0, 2, 0, 0), 'szaty'):
+				# print(word, end=' ')
+				if does_word_fit(word, (0, 0, 2, 0, 1), 'chaos'):
+					# print(word, end=' ')
+					if does_word_fit(word, (0, 1, 2, 1, 0), 'blask'):
+						print(word, end=' ')
+						pass
 	
 	# n = 2_000
 	# start = time.perf_counter()
