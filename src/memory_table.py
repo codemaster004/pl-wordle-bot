@@ -9,22 +9,15 @@ import wolframclient
 
 from main import compare_word_with_key
 
-conn = sqlite3.connect('patterns.db')
-c = conn.cursor()
+# conn = sqlite3.connect('patterns.db')
+# c = conn.cursor()
 
 redis_patterns = redis.Redis(host='localhost', port=6379, db=1)
 
 
-with open("data/words.json") as file:
+with open("data/short_words.json") as file:
 	data = json.load(file)
 	words = data['slowa']
-	
-
-def initial_table_creation():
-	create_table_sql = '''CREATE TABLE pattern_table
-	(words_combination TEXT UNIQUE, checking_word CHAR(5), target_word CHAR(5), pattern TEXT);'''
-	# c.execute(create_table_sql)
-	# conn.commit()
 	
 
 def add_word_patterns(data_dict):
@@ -54,8 +47,10 @@ def calc_all_patterns(words):
 		add_word_patterns(temp_dict)
 
 
+if __name__ == '__main__':
+	calc_all_patterns(words)
 # start = perf_counter()
-calc_all_patterns(words)
+# calc_all_patterns(words)
 # end = perf_counter()
 # print(f"Patterns generated in {(end - start) * 1000:0.0f} ms")
 

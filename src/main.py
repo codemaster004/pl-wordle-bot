@@ -107,7 +107,7 @@ def does_word_fit(check_word, pattern_list, pattern_word):
 	return True
 
 
-def create_pattern_chart(check_word, words):
+def create_pattern_chart(check_word, all_words, patterns):
 	"""
 	For a given currently check word calculates its entropy.
 	
@@ -144,33 +144,36 @@ def create_pattern_chart(check_word, words):
 	:rtype: dict[str, str | dict | int]
 	"""
 	
-	possible_patterns = list(itertools.product(range(3), repeat=len(check_word)))
-	pattern_chart = {'key': check_word, 'patterns': {}, 'entropy': 0}  # Prepare data structure
+	# possible_patterns = list(itertools.product(range(3), repeat=len(check_word)))
+	# pattern_chart = {'key': check_word, 'patterns': {}, 'entropy': 0}  # Prepare data structure
 	
-	for pattern in possible_patterns:
-		n = 0
-		for word in words:
-			# Check if word from word list matches pattern build on the check_word
-			if does_word_fit(word, pattern, check_word):
-				n += 1
-		
-		probability = n / len(words)
-		if probability != 0:
-			pattern_chart['patterns'][str(pattern)] = probability
+	# for pattern in possible_patterns:
+	# 	n = 0
+	# 	for word in words:
+	# 		# Check if word from word list matches pattern build on the check_word
+	# 		if does_word_fit(word, pattern, check_word):
+	# 			n += 1
+	# 	
+	# 	probability = n / len(words)
+	# 	if probability != 0:
+	# 		pattern_chart['patterns'][str(pattern)] = probability
 	
 	# print(pattern_chart)
 	
 	entropy = 0
-	
+	n = len(all_words)
 	# Calculater: Entropy(Information) = Sum( probability(x) * Information(x) )
-	for probability in pattern_chart['patterns'].values():
-		information = math.log2(1 / probability)
-		entropy += probability * information
+	for pattern, words in patterns.items():
+		n_words = len(words)
+		if n_words != 0:
+			probability = n_words / n
+			information = math.log2(1 / probability)
+			entropy += probability * information
 	
-	pattern_chart['entropy'] = entropy
+	# pattern_chart['entropy'] = entropy
 	
 	# print(check_word, entropy)
-	return pattern_chart
+	return entropy
 
 
 if __name__ == '__main__':
