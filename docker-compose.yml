@@ -8,3 +8,12 @@ services:
     command: redis-server --port 6379
     ports:
       - "6379:6379"
+    
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: wordle
+      POSTGRES_PASSWORD: wordle
+      POSTGRES_DB: wordle
+    ports:
+      - "5432:5432"

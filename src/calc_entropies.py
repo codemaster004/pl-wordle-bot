@@ -9,8 +9,8 @@ from datetime import datetime
 from main import create_pattern_chart
 
 
+redis_sorted = redis.Redis(host='localhost', port=6379, db=0)
 redis_patterns = redis.Redis(host='localhost', port=6379, db=1)
-# redis_sorted = redis.Redis(host='localhost', port=6379, db=3)
 # redis_entropies = redis.Redis(host='localhost', port=6379, db=4)
 # redis_distribution = redis.Redis(host='localhost', port=6379, db=5)
 
@@ -25,6 +25,7 @@ def calc_entropy_for_words(word_list):
 		end = time.perf_counter()
 		print(f"Done in {(end - start) * 1000:0.0f} ms")
 		print(word, score)
+		redis_sorted.zadd('firstEntropy', {word: score})
 		# patterns = dist['patterns']
 		# print(f'[{datetime.now().strftime("%H:%M:%S")}] Thread {n}: Calculation Finished for "{dist["key"]}" with a result of {round(dist["entropy"], 3)} Bits')
 		
@@ -47,7 +48,7 @@ def calc_rest_of_entropies():
 	
 	# Run the calculation for them
 	# Now i have to pick one with the highest entropy. so calculate the entropy.
-	calc_entropy_for_words(calculate_words, )
+	calc_entropy_for_words(calculate_words)
 
 
 if __name__ == '__main__':

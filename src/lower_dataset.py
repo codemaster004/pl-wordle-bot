@@ -10,6 +10,7 @@ letters = list(set([word[:1] for word in words]))
 letters.sort()
 
 for char in letters:
+	continue
 	filtered_words = [word for word in words if word[0] == char]
 	# with open(f"data/letters/{char}.json", "w") as file:
 	# 	json.dump({'slowa': filtered_words}, file, ensure_ascii=False)
@@ -39,3 +40,8 @@ for char in letters:
 print(len(shorter_list))
 with open("data/short_words.json", 'w') as file:
 	json.dump({'slowa': shorter_list}, file)
+
+missing_words = list(set(words) - set(shorter_list))
+print(len(missing_words))
+with open("data/extended_words.json", 'w') as file:
+	json.dump({'slowa': missing_words}, file)
