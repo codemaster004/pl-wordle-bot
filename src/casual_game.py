@@ -35,16 +35,28 @@ class Bot:
 			self.redis_words = data['slowa']
 	
 	def recalculate_entropies(self):
+		global all_words
 		new_entropies = {}
 		s1 = set(self.words_available)
-		for word in self.words_available:
-			pattern_distribution = redis_patterns.hgetall(word)
-			# print(pattern_distribution)
-			pattern_distribution = {k.decode('utf-8'): json.loads(v) for k, v in pattern_distribution.items()}
-			for pattern, word_list in pattern_distribution.items():
-				s2 = set(word_list)
-				s_temp = s2 - s1
-				pattern_distribution[pattern] = list(s2 - s_temp)
+		# print(self.words_available)
+		for word in s1:
+			
+			# pattern_distribution = redis_patterns.hgetall(word)
+			# pattern_distribution = {k.decode('utf-8'): json.loads(v) for k, v in pattern_distribution.items()}
+			
+			pattern_distribution = {}
+			for ch_word in self.words_available:
+				if ch_word not in s1:
+					continue
+				pattern = compare_word_with_key(ch_word, word)
+				if pattern not in pattern_distribution:
+					pattern_distribution[pattern] = []
+				pattern_distribution[pattern].append(ch_word)
+			
+			# for pattern, word_list in pattern_distribution.items():
+			# 	s2 = set(word_list)
+			# 	s_temp = s2 - s1
+			# 	pattern_distribution[pattern] = list(s2 - s_temp)
 			score = create_pattern_chart(word, self.words_available, pattern_distribution)
 			new_entropies[word] = score
 		
@@ -83,8 +95,13 @@ class Bot:
 		if not new_words:
 			new_words = self.fetch_possible_answers_postgres(guess_word, pattern)
 
-		print(len(new_words), "remaining", "\n")
-		self.words_available = new_words
+		s1 = set(self.words_available)
+		s2 = set(new_words)
+		s_temp = s1 - s2
+		
+		self.words_available = list(s1 - s_temp)
+		print(self.words_available[:9])
+		print(len(self.words_available), "remaining", "\n")
 		
 		self.choose_word()
 	
@@ -129,3 +146,9 @@ if __name__ == '__main__':
 		pattern = tuple([int(n) for n in list(temp_pattern)])
 		
 		bot.play_word(word, pattern)
+
+
+"""
+TODO: Check key: elita, [soria, celny, mężuś]
+[00000, 00101, 01000]
+"""

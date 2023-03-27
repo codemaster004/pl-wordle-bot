@@ -142,7 +142,7 @@ if __name__ == '__main__':
 	wordle = Game()
 	wordle.load_words('words.json')
 	wordle.start()
-	wordle.key_word = 'metka'
+	wordle.key_word = 'elita'
 	bot = Bot(wordle.words)
 	
 	# new_words = wordle.words
