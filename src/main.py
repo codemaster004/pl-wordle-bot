@@ -32,9 +32,9 @@ def compare_word_with_key(key, word):
 			if temp_key[i] == char:
 				pattern[i] = 2
 				temp_key[i] = None  # Because of double letter we remove Green ones to enable easy checks later
-			
-			# Check for orange letters. Because of a need to handle double letters differently those will be dealt with later
-			orange_char.append((i, char))
+			else:
+				# Check for orange letters. Because of a need to handle double letters differently those will be dealt with later
+				orange_char.append((i, char))
 	
 	# After checking the rest of the word we can check if exists
 	for i, char in orange_char:

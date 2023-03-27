@@ -96,9 +96,9 @@ def calc_remaining_patterns(words, full_words):
 
 
 if __name__ == '__main__':
-	# initial_table_creation()
+	initial_table_creation()
 	calc_all_patterns(short_words, full_words)
-	# calc_remaining_patterns(extended_words, full_words)
+	calc_remaining_patterns(extended_words, full_words)
 	
 	cur.close()
 	conn.close()

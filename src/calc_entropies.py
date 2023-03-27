@@ -88,7 +88,7 @@ def calc_rest_of_entropies():
 	sql_words = [word[0] for word in sql_words]
 	# Run the calculation for them
 	# Now i have to pick one with the highest entropy. so calculate the entropy.
-	# calc_entropy_for_words_sql(sql_words)
+	calc_entropy_for_words_sql(sql_words)
 	calc_entropy_for_words(calculate_words)
 
 

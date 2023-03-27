@@ -87,11 +87,14 @@ class Bot:
 	
 	def recalculate_entropies(self):
 		new_entropies = {}
+		s1 = set(self.words_available)
 		for word in self.words_available:
 			pattern_distribution = redis_patterns.hgetall(word)
 			pattern_distribution = {k.decode('utf-8'): json.loads(v) for k, v in pattern_distribution.items()}
 			for pattern, word_list in pattern_distribution.items():
-				pattern_distribution[pattern] = [w for w in word_list if w in self.words_available]
+				s2 = set(word_list)
+				s_temp = s2 - s1
+				pattern_distribution[pattern] = list(s2 - s_temp)
 			score = create_pattern_chart(word, self.words_available, pattern_distribution)
 			new_entropies[word] = score
 		
@@ -139,15 +142,16 @@ if __name__ == '__main__':
 	wordle = Game()
 	wordle.load_words('words.json')
 	wordle.start()
+	wordle.key_word = 'metka'
 	bot = Bot(wordle.words)
 	
 	# new_words = wordle.words
 	bot.choose_word()
 	bot.choose_word()
-	bot.choose_word()
-	bot.choose_word()
-	bot.choose_word()
-	bot.choose_word()
+	# bot.choose_word()
+	# bot.choose_word()
+	# bot.choose_word()
+	# bot.choose_word()
 	# while wordle.can_play():
 	# 	if len(wordle.ties) == 0:
 	# 		bot.choose_word()
