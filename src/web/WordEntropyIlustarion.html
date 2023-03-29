@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Visualisation Entropy</title>
+
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    
+    <div class="chartCenter">
+        <div class="chart">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+        <div class="word">
+            <p class="char"></p>
+            <p class="char"></p>
+            <p class="char"></p>
+            <p class="char"></p>
+            <p class="char"></p>
+        </div>
+    </div>
 
+    <script type="text/javascript" src="chart_data.js"></script>
+    <script>
+        const chartData = JSON.parse(jsonPatterns);
+        
+        let word = chartData.word
+        let characters = document.querySelectorAll(".char")
+        for (let i = 0; i < characters.length; i++) {
+            characters[i].innerHTML = word[i]
+        }
+        
+        columns = document.querySelectorAll('.col')
+        for (let i = 0; i < chartData.patterns.length; i++) {
+            let barHeight = Math.floor(chartData.patterns[i][1] * 430 / chartData.count) + 'px'
+            let barColor = '#3a3a3c'
+            
+            for (let j = 0; j < chartData.patterns[i][0].length; j++) {
+                if (chartData.patterns[i][0][j] === 1) {
+                    barColor = '#b59f3b'
+                } else if (chartData.patterns[i][0][j] === 2) {
+                    barColor = '#538d4e'
+                } else {
+                    barColor = '#3a3a3c'
+                }
+                
+                let bar = document.createElement('div')
+                bar.style.height = barHeight;
+                bar.style.width = '100%';
+                bar.style.backgroundColor = barColor;
+                
+                columns[j].appendChild(bar);
+            }
+            
+        }
+        
+        for (let i = 0; i < 10; i++) {}
+        
+    </script>
 </body>
 </html>
