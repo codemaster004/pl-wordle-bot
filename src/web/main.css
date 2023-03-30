@@ -1,0 +1,61 @@
+body {
+    background-color: #121213;
+    /*min-height: 100vh;*/
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+}
+
+.chartCenter {
+    position: absolute;
+    top: 50%;
+    left: 33%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+}
+.descCenter {
+    position: absolute;
+    top: 50%;
+    left: 66%;
+    transform: translate(-50%, -56%);
+    width: 350px;
+    color: #fff;
+}
+
+.chart {
+    height: 430px;
+}
+
+.col {
+    width: 66px;
+    height: 100%;
+    float: left;
+    margin: 2px;
+    
+    display: flex;
+    flex-flow: column-reverse;
+}
+
+.word {
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.word p {
+    width: 62px;
+    height: 62px;
+    float: left;
+    font-size: 32px;
+    margin: 2px;
+    border: 2px solid #3a3a3c;
+    text-align: center;
+    line-height: 200%;
+    font-weight: 700;
+}
+
+.colorBox {
+    height: 20px;
+    width: 20px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 3px;
+    /*background-color: #b59f3b;*/
+}
