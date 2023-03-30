@@ -24,6 +24,10 @@
             <p class="char"></p>
         </div>
     </div>
+    
+    <div class="descCenter">
+        <div class="colorBox"></div>
+    </div>
 
     <script type="text/javascript" src="chart_data.js"></script>
     <script>
@@ -59,7 +63,25 @@
             
         }
         
-        for (let i = 0; i < 10; i++) {}
+        let desc = document.querySelector('.descCenter')
+        for (let i = 0; i < 13; i++) {
+            let addHtml = "<div>"
+            addHtml += "<div style='display: inline-block'>"
+            let boxColor = '#3a3a3c'
+            for (let j = 0; j < chartData.patterns[i][0].length; j++) {
+                if (chartData.patterns[i][0][j] === 1) {
+                    boxColor = '#b59f3b'
+                } else if (chartData.patterns[i][0][j] === 2) {
+                    boxColor = '#538d4e'
+                } else {
+                    boxColor = '#3a3a3c'
+                }
+                addHtml += `<div class="colorBox" style="background-color: ${boxColor}"></div>`
+            }
+            addHtml += "</div>"
+            addHtml += `<p style="display: inline-block; margin: 5px 5px 5px 0px; transform: translateY(-5px);">: ${Math.round(chartData.patterns[i][1] / chartData.count * 10000) / 100}%</p></div>`
+            desc.innerHTML += addHtml
+        }
         
     </script>
 </body>
