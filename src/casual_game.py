@@ -17,6 +17,7 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
+
 class Bot:
 	
 	def __init__(self, words):
@@ -39,7 +40,7 @@ class Bot:
 		new_entropies = {}
 		s1 = set(self.words_available)
 		# print(self.words_available)
-		for word in s1:
+		for word in all_words:
 			
 			# pattern_distribution = redis_patterns.hgetall(word)
 			# pattern_distribution = {k.decode('utf-8'): json.loads(v) for k, v in pattern_distribution.items()}
