@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.word .char.selected {
+    animation: selected-char 1.35s linear infinite;
+}
+
+
+@keyframes selected-char {
+    0% {
+        border: 2px solid #4a4a4c;
+    }
+    50% {
+        border: 2px solid #6a6a6c;
+    }
+    100% {
+        border: 2px solid #4a4a4c;
+    }
+}
