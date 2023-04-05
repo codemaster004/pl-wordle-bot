@@ -2,6 +2,7 @@ body {
     background-color: #121213;
     /*min-height: 100vh;*/
     font-family: -apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+    color: #fff;
 }
 
 .chartCenter {
@@ -49,6 +50,7 @@ body {
     text-align: center;
     line-height: 200%;
     font-weight: 700;
+    border-radius: 2px;
 }
 
 .colorBox {
