@@ -90,7 +90,7 @@ class Bot:
 		return words
 	
 	def play_word(self, guess_word, pattern):
-		self.previous_pattern = (guess_word, pattern)
+		self.previous_pattern.append((guess_word, pattern))
 		
 		new_words = self.fetch_possible_answers_redis(guess_word, pattern)
 		if not new_words:
@@ -108,25 +108,17 @@ class Bot:
 	
 	def choose_word(self):
 		if not self.previous_pattern:
-			top_scores = redis_sorted.zrevrange('firstEntropy', 0, 19, withscores=True)
-			print([(word[0].decode('utf-8'), word[1]) for word in top_scores])
+			top_picks = redis_sorted.zrevrange('firstEntropy', 0, 19, withscores=True)
+			
+			print([(word[0].decode('utf-8'), word[1]) for word in top_picks])
+			return top_picks
 		else:
-			# print(self.words_available)
+			# print(self.words_available[:29])
 			entropies = self.recalculate_entropies()
 			top_picks = entropies[:29]
+			
 			print(top_picks)
-			# guessed_pattern = wordle.turn(top_pick)
-			# print(guessed_pattern)
-			# self.previous_pattern.append(guessed_pattern)
-			# 
-			# new_words = []
-			# for word in self.words_available:
-			# 	if does_word_fit(word, guessed_pattern, top_pick):
-			# 		new_words.append(word)
-			# print(len(new_words), "remaining", "\n")
-			# self.words_available = new_words
-			# 
-			return
+			return top_picks
 
 
 if __name__ == '__main__':
