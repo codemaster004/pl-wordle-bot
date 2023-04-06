@@ -3,6 +3,10 @@ body {
     justify-content: center;
 }
 
+.main-game-box {
+    margin-top: 70px;
+}
+
 .word .char.selected {
     animation: selected-char 1.35s linear infinite;
 }

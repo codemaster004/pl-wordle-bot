@@ -28,11 +28,11 @@ class Bot:
 		self.redis_words = []
 	
 	def load_word_lists(self):
-		with open("../data/extended_words.json") as file:
+		with open("/Users/filip/Developer/Python/WordleAlg/src/data/words.json") as file:
 			data = json.load(file)
 			self.sql_words = data['slowa']
 		
-		with open("../data/short_words.json") as file:
+		with open("/Users/filip/Developer/Python/WordleAlg/src/data/words.json") as file:
 			data = json.load(file)
 			self.redis_words = data['slowa']
 	
@@ -122,7 +122,7 @@ class Bot:
 
 
 if __name__ == '__main__':
-	with open('data/words.json') as file:
+	with open('/Users/filip/Developer/Python/WordleAlg/src/data/words.json') as file:
 		data = json.load(file)
 		all_words = data['slowa']
 	

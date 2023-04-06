@@ -22,7 +22,7 @@ def data():
 
 
 if __name__ == '__main__':
-	with open('../data/words.json') as file:
+	with open('/Users/filip/Developer/Python/WordleAlg/src/data/words.json') as file:
 		data = json.load(file)
 		all_words = data['slowa']
 
