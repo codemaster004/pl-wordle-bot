@@ -22,25 +22,25 @@ class Bot:
 	
 	def __init__(self, words):
 		self.words_available = words
+		self.all_words = words
 		self.previous_pattern = []
 		self.sql_words = []
 		self.redis_words = []
 	
 	def load_word_lists(self):
-		with open("data/extended_words.json") as file:
+		with open("../data/extended_words.json") as file:
 			data = json.load(file)
 			self.sql_words = data['slowa']
 		
-		with open("data/short_words.json") as file:
+		with open("../data/short_words.json") as file:
 			data = json.load(file)
 			self.redis_words = data['slowa']
 	
 	def recalculate_entropies(self):
-		global all_words
 		new_entropies = {}
 		s1 = set(self.words_available)
 		# print(self.words_available)
-		for word in all_words:
+		for word in self.all_words:
 			
 			# pattern_distribution = redis_patterns.hgetall(word)
 			# pattern_distribution = {k.decode('utf-8'): json.loads(v) for k, v in pattern_distribution.items()}
