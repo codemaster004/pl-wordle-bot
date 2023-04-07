@@ -1,10 +1,92 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.main-game-box {
+    margin-top: 70px;
 }
 
 .word .char.selected {
     animation: selected-char 1.35s linear infinite;
+}
+
+.possible-words h3, word-suggestion h3 {
+    line-height: 34px;
+}
+
+.possible-words {
+    width: 120px;
+    text-align: right;
+    font-family: "Canela Text";
+    clear: both;
+    color: #ddd;
+}
+
+.possible-words * {
+    display: block;
+    float: none;
+    clear: both;
+}
+
+.possible-words p.info {
+    width: auto;
+    transform: none;
+}
+
+.possible-words .possible {
+    line-height: normal;
+    margin: 5px 0;
+}
+
+.word-suggestion {
+    width: 140px;
+    font-family: "Canela Text";
+    color: #ddd;
+    clear: both;
+}
+
+.word-suggestion h4 {
+    line-height: 11px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 38px;
+}
+
+.word-suggestion h4 > * {
+    border-bottom: 1px solid #6a6a6c;
+    padding: 0 4px;
+}
+
+.word-suggestion p {
+    font-size: inherit;
+    line-height: inherit;
+    text-align: center;
+    float: none;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #6a6a6c;
+}
+
+.word-suggestion div p {
+    font-size: 20px;
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+    margin-bottom: 11px;
+}
+
+.word-suggestion span {
+    color: #4ed09f;
+}
+
+.word-suggestion div span {
+    font-family: "Canela Text";
+    font-size: 18px;
+    transform: translateY(2px);
 }
 
 

@@ -36,21 +36,36 @@ body {
 }
 
 .word {
-    text-transform: uppercase;
     color: #fff;
+    height: 66px;
 }
 
-.word p {
+p {
+    font-size: 20px;
+    float: left;
+    line-height: 190%;
+}
+
+p.info {
+    margin: 0;
+    height: 66px;
+    line-height: 360%;
+    width: 0;
+    white-space: nowrap;
+    transform: translateX(5px);
+}
+
+.word p.char {
     width: 62px;
     height: 62px;
-    float: left;
     font-size: 32px;
+    text-transform: uppercase;
     margin: 2px;
     border: 2px solid #3a3a3c;
     text-align: center;
-    line-height: 200%;
     font-weight: 700;
     border-radius: 2px;
+    box-sizing: border-box;
 }
 
 .colorBox {

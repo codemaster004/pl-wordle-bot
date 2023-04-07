@@ -22,25 +22,25 @@ class Bot:
 	
 	def __init__(self, words):
 		self.words_available = words
+		self.all_words = words
 		self.previous_pattern = []
 		self.sql_words = []
 		self.redis_words = []
 	
 	def load_word_lists(self):
-		with open("data/extended_words.json") as file:
+		with open("/Users/filip/Developer/Python/WordleAlg/src/data/words.json") as file:
 			data = json.load(file)
 			self.sql_words = data['slowa']
 		
-		with open("data/short_words.json") as file:
+		with open("/Users/filip/Developer/Python/WordleAlg/src/data/words.json") as file:
 			data = json.load(file)
 			self.redis_words = data['slowa']
 	
 	def recalculate_entropies(self):
-		global all_words
 		new_entropies = {}
 		s1 = set(self.words_available)
 		# print(self.words_available)
-		for word in all_words:
+		for word in self.all_words:
 			
 			# pattern_distribution = redis_patterns.hgetall(word)
 			# pattern_distribution = {k.decode('utf-8'): json.loads(v) for k, v in pattern_distribution.items()}
@@ -101,10 +101,12 @@ class Bot:
 		s_temp = s1 - s2
 		
 		self.words_available = list(s1 - s_temp)
-		print(self.words_available[:9])
+		print(self.words_available[:10])
 		print(len(self.words_available), "remaining", "\n")
 		
-		self.choose_word()
+		top_picks = self.choose_word()
+		
+		return sorted(self.words_available)[:10], len(self.words_available), top_picks
 	
 	def choose_word(self):
 		if not self.previous_pattern:
@@ -115,14 +117,14 @@ class Bot:
 		else:
 			# print(self.words_available[:29])
 			entropies = self.recalculate_entropies()
-			top_picks = entropies[:29]
+			top_picks = entropies[:30]
 			
 			print(top_picks)
-			return top_picks
+			return top_picks[:11]
 
 
 if __name__ == '__main__':
-	with open('data/words.json') as file:
+	with open('/Users/filip/Developer/Python/WordleAlg/src/data/words.json') as file:
 		data = json.load(file)
 		all_words = data['slowa']
 	
