@@ -52,7 +52,7 @@ p.info {
     line-height: 360%;
     width: 0;
     white-space: nowrap;
-    transform: translateX(10px);
+    transform: translateX(5px);
 }
 
 .word p.char {

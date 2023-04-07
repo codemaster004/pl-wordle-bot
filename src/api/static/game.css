@@ -5,7 +5,7 @@ p {
 
 body {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .main-game-box {
@@ -48,12 +48,14 @@ body {
     width: 140px;
     font-family: "Canela Text";
     color: #ddd;
+    clear: both;
 }
 
 .word-suggestion h4 {
     line-height: 11px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 38px;
 }
 
 .word-suggestion h4 > * {
@@ -64,6 +66,27 @@ body {
 .word-suggestion p {
     font-size: inherit;
     line-height: inherit;
+    text-align: center;
+    float: none;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #6a6a6c;
+}
+
+.word-suggestion div p {
+    font-size: 20px;
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,sans-serif;
+    margin-bottom: 11px;
+}
+
+.word-suggestion span {
+    color: #4ed09f;
+}
+
+.word-suggestion div span {
+    font-family: "Canela Text";
+    font-size: 18px;
+    transform: translateY(2px);
 }
 
 

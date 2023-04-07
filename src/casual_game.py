@@ -117,10 +117,10 @@ class Bot:
 		else:
 			# print(self.words_available[:29])
 			entropies = self.recalculate_entropies()
-			top_picks = entropies[:29]
+			top_picks = entropies[:30]
 			
 			print(top_picks)
-			return top_picks
+			return top_picks[:11]
 
 
 if __name__ == '__main__':

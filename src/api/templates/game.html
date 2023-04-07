@@ -72,6 +72,10 @@
 </div>
 <div class="word-suggestion">
     <h4><p>Top Picks</p> <span>E[Info.]</span></h4>
+    <div class="top-picks" id="top-picks">
+        <p>soria <span>4.68</span></p>
+        <p>kolia <span>4.73</span></p>
+    </div>
 </div>
 
 <script>
@@ -97,9 +101,13 @@
     charBoxes[selectedChar].classList.add("selected")
     
     let possibleWords = ['abace', 'abaci', 'abaka', 'abaki', 'abako', 'abaku', 'abaką', 'abakę', 'abata', 'abaty']
+    let bestWords = [['soria', 5.398], ['kolia', 5.396], ['moria', 5.39], ['konia', 5.386], ['kalio', 5.384], 
+        ['kanio', 5.376], ['mario', 5.367], ['kuria', 5.367], ['sorka', 5.342], ['noria', 5.337], ['korna', 5.33], ]
     let possibleWordsCount = 28020
     let possibleWordsBox = document.querySelector("#possible-words")
+    let bestWordsBox = document.querySelector("#top-picks")
     let possibleWordsCountBox = document.querySelector("#possible-words-count")
+    let infoBoxes = document.querySelectorAll(".info")
     
     function createPossibleWords(possible) {
         possibleWordsBox.innerHTML = ""
@@ -120,6 +128,14 @@
     }
     appendPossibleCount(possibleWordsCount)
     
+    function createTopPicks(picks) {
+        bestWordsBox.innerHTML = ''
+        for (pick of picks) {
+            bestWordsBox.innerHTML += `<p>${pick[0]} <span>${Math.round(pick[1] * 1000) / 1000}</span></p>`
+        }
+    }
+    createTopPicks(bestWords)
+    
     function getPredictions() {
         $.ajax({
             url: '/predictions',
@@ -132,14 +148,21 @@
                 let data = JSON.parse(response)
                 
                 possibleWords = data.possible
-                let topPicks = data.bestWords
-                let information = Math.log2(possibleWordsCount / data.possibleCount)
+                bestWords = data.bestWords
+                let information = Math.round(Math.log2(possibleWordsCount / data.possibleCount) * 1000) / 1000
+                for (let info of infoBoxes) {
+                    if (info.innerHTML === "") {
+                        info.innerHTML = `${information} Bits`
+                        break
+                    }
+                }
                 possibleWordsCount = data.possibleCount
 
                 console.log(possibleWords)
                 
                 createPossibleWords(possibleWords)
                 appendPossibleCount(possibleWordsCount)
+                createTopPicks(bestWords)
             }
         });
     }

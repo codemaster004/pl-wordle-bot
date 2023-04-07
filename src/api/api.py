@@ -32,4 +32,5 @@ if __name__ == '__main__':
 
 	bot = Bot(all_words)
 	bot.load_word_lists()
+	bot.choose_word()
 	app.run(debug=True)
