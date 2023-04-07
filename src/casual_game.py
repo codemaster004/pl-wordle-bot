@@ -101,10 +101,12 @@ class Bot:
 		s_temp = s1 - s2
 		
 		self.words_available = list(s1 - s_temp)
-		print(self.words_available[:9])
+		print(self.words_available[:10])
 		print(len(self.words_available), "remaining", "\n")
 		
-		self.choose_word()
+		top_picks = self.choose_word()
+		
+		return sorted(self.words_available)[:10], len(self.words_available), top_picks
 	
 	def choose_word(self):
 		if not self.previous_pattern:

@@ -10,6 +10,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <body>
+<div class="possible-words">
+    <h3># Possibilities</h3>
+    <div id="possible-words-count">
+<!--        <p class="info">28,000 Pos</p>-->
+    </div>
+    <div id="possible-words">
+<!--        <p class="possible">hello</p>-->
+<!--        <p class="possible">word</p>-->
+    </div>
+</div>
 <div class="main-game-box">
     <div class="word">
         <p class="char"></p>
@@ -17,7 +27,7 @@
         <p class="char"></p>
         <p class="char"></p>
         <p class="char"></p>
-        <p class="info">1 Bit</p>
+        <p class="info"></p>
     </div>
     <div class="word">
         <p class="char"></p>
@@ -25,7 +35,7 @@
         <p class="char"></p>
         <p class="char"></p>
         <p class="char"></p>
-        <p class="info">2.65 Bit</p>
+        <p class="info"></p>
     </div>
     <div class="word">
         <p class="char"></p>
@@ -60,6 +70,9 @@
         <p class="info"></p>
     </div>
 </div>
+<div class="word-suggestion">
+    <h4><p>Top Picks</p> <span>E[Info.]</span></h4>
+</div>
 
 <script>
     let words = {
@@ -83,6 +96,30 @@
 
     charBoxes[selectedChar].classList.add("selected")
     
+    let possibleWords = ['abace', 'abaci', 'abaka', 'abaki', 'abako', 'abaku', 'abaką', 'abakę', 'abata', 'abaty']
+    let possibleWordsCount = 28020
+    let possibleWordsBox = document.querySelector("#possible-words")
+    let possibleWordsCountBox = document.querySelector("#possible-words-count")
+    
+    function createPossibleWords(possible) {
+        possibleWordsBox.innerHTML = ""
+        for (let word of possible) {
+            let e = document.createElement('p')
+            e.classList.add('possible')
+            e.innerHTML = word
+            possibleWordsBox.appendChild(e)
+        }
+    }
+    createPossibleWords(possibleWords)
+    
+    function appendPossibleCount(count) {
+        let e = document.createElement('p')
+        e.classList.add('info')
+        e.innerHTML = `${count} Pos`
+        possibleWordsCountBox.appendChild(e)
+    }
+    appendPossibleCount(possibleWordsCount)
+    
     function getPredictions() {
         $.ajax({
             url: '/predictions',
@@ -92,7 +129,17 @@
                 pattern: JSON.stringify(words.patterns[words.patterns.length - 2])
             },
             success: function(response) {
-                console.log(response)
+                let data = JSON.parse(response)
+                
+                possibleWords = data.possible
+                let topPicks = data.bestWords
+                let information = Math.log2(possibleWordsCount / data.possibleCount)
+                possibleWordsCount = data.possibleCount
+
+                console.log(possibleWords)
+                
+                createPossibleWords(possibleWords)
+                appendPossibleCount(possibleWordsCount)
             }
         });
     }
@@ -142,7 +189,7 @@
         }
         
         if (typedLetter === "backspace") {
-            if (selectedChar % 5 > 0 && (charBoxes[selectedChar].innerHTML === "" || currentList === WordsModes.Patterns)) {
+            if (selectedChar % 5 > 0 && (charBoxes[selectedChar].innerHTML === "" || charBoxes[selectedChar].style.backgroundColor === "rgb(18, 18, 19)")) {
                 updateSelectedHtml(selectedChar - 1, "")
                 words[currentList][words[currentList].length - 1].pop()
                 updateSelectedChar(-1)

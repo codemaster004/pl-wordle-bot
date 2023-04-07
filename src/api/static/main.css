@@ -40,13 +40,13 @@ body {
     height: 66px;
 }
 
-.word p {
+p {
     font-size: 20px;
     float: left;
-    line-height: 200%;
+    line-height: 190%;
 }
 
-.word p.info {
+p.info {
     margin: 0;
     height: 66px;
     line-height: 360%;
@@ -65,6 +65,7 @@ body {
     text-align: center;
     font-weight: 700;
     border-radius: 2px;
+    box-sizing: border-box;
 }
 
 .colorBox {

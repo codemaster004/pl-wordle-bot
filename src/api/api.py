@@ -8,6 +8,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+	global bot, all_words
+	bot = None
+	bot = Bot(all_words)
+	bot.load_word_lists()
 	return render_template('game.html')
 
 
@@ -17,8 +21,8 @@ def data():
 	temp_pattern = json.loads(request.args.get('pattern'))
 	pattern = tuple([int(n) for n in temp_pattern])
 	print(word, pattern)
-	bot.play_word(word, pattern)
-	return 'Some data'
+	possible_words, n_words, best_words = bot.play_word(word, pattern)
+	return json.dumps({'possible': possible_words, 'possibleCount': n_words, 'bestWords': best_words})
 
 
 if __name__ == '__main__':
